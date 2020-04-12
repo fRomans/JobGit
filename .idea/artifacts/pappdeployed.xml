@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="pappdeployed">
+    <output-path>$PROJECT_DIR$/out/artifacts/pappdeployed</output-path>
+    <root id="root" />
+  </artifact>
+</component>
