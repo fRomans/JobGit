@@ -12,7 +12,7 @@
   </head>
   <body>
 
-  <form action="" method="POST">
+  <form action="/addservlet" method="POST">
     name: <input type="text" name="name" />
     password: <input type="password" name="password" />
     money:<input type="text" name="money" />
