@@ -1,9 +1,7 @@
 package servlets;
 
-import com.google.gson.Gson;
 import model.User;
 import service.UserService;
-import util.PageGenerator;
 //JobGit_war_exploded/
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/", name = "AddServlet")
+@WebServlet(urlPatterns = "/add", name = "AddServlet")
 public class AddServlet extends HttpServlet {
 
     @Override
@@ -37,12 +35,24 @@ public class AddServlet extends HttpServlet {
             pageVariables.put("emailReg1", "name/password/money!!!");
         }
         try {
-            resp.getWriter().println(PageGenerator.getInstance()
-                    .getPage("index.jsp", pageVariables));
+            //resp.getWriter().println(PageGenerator.getInstance()
+                 //   .getPage("index.jsp", pageVariables));
         }catch (Exception e){
             System.out.println(" это моя ошибка в ApiServlet");
         }
         resp.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        UserService userService = new UserService();
+        try {
+            userService.createTable();
+            resp.setStatus(200);
+        } catch (Exception e) {
+            resp.setStatus(400);
+        }
+
     }
 
 
@@ -57,13 +67,13 @@ public class AddServlet extends HttpServlet {
 
             Map<String, Object> pageVariables = new HashMap<>();
             if (addUser){//true по умолчанию
-                pageVariables.put("message", "Add client successful");
+                pageVariables.put("emailReg1", "Add client successful");
 
             }else {
-                pageVariables.put("message", "Client not add");
+                pageVariables.put("emailReg1", "Client not add");
             }
-            resp.getWriter().println(PageGenerator.getInstance()
-                    .getPage("index.jsp", pageVariables));
+           // resp.getWriter().println(PageGenerator.getInstance()
+              //      .getPage("index.jsp", pageVariables));
         } catch ( SQLException e) {
             e.printStackTrace();
         }
@@ -71,10 +81,7 @@ public class AddServlet extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-    }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
