@@ -21,6 +21,6 @@
 
   </form>
 
-  <p>User: $emailReg1$</p>
+  <p>Users: ${emailReg1}</p>
   </body>
 </html>

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import model.User;
 import service.UserService;
 import util.PageGenerator;
-
+//JobGit_war_exploded/
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/addservlet", name = "AddServlet")
+@WebServlet(urlPatterns = "/", name = "AddServlet")
 public class AddServlet extends HttpServlet {
 
     @Override
@@ -67,6 +67,7 @@ public class AddServlet extends HttpServlet {
         } catch ( SQLException e) {
             e.printStackTrace();
         }
+        resp.getWriter().println("!!!rrrrrrrrrrrrrrrrrrrrrrr!!!");
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
@@ -87,28 +88,24 @@ public class AddServlet extends HttpServlet {
         }
     }
 
-    private static Map<String, Object> createPageVariablesMap(HttpServletRequest req) {
-        Map<String, Object> pageVariables = new HashMap<>();
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        if (email == null || password == null) {// закрываю ошибку freemarker при null/пустоте
-            System.out.println(" введите логин/пароль");
-            pageVariables.put("emailAuth1", "Введите email");
-            pageVariables.put("passwordAuth1", "Введите password");
-            return pageVariables;
-        } else if (email.isEmpty() || password.isEmpty()) {// закрываю ошибку freemarker при null/пустоте
-            System.out.println(" пустые логин/пароль");
-            pageVariables.put("emailAuth1", "пустой email");
-            pageVariables.put("passwordAuth1", "пустой password");
-            return pageVariables;
-        } else if (email != null & password != null) {
-            pageVariables.put("emailAuth1", email);
-            pageVariables.put("passwordAuth1", password);
-            return pageVariables;
-        }else {
-            pageVariables.put("emailAuth1", "нет email");
-            pageVariables.put("passwordAuth1", "нет password");
-            return pageVariables;
-        }
-    }
+//    private static Map<String, Object> createPageVariablesMap(HttpServletRequest req) {
+//        Map<String, Object> pageVariables = new HashMap<>();
+//        String email = req.getParameter("email");
+//        String password = req.getParameter("password");
+//        if (email == null || password == null) {// закрываю ошибку freemarker при null/пустоте
+//            System.out.println(" введите логин/пароль");
+//            pageVariables.put("emailAuth1", "Введите email");
+//            pageVariables.put("passwordAuth1", "Введите password");
+//            return pageVariables;
+//
+//        } else if (email != null & password != null) {
+//            pageVariables.put("emailAuth1", email);
+//            pageVariables.put("passwordAuth1", password);
+//            return pageVariables;
+//        }else {
+//            pageVariables.put("emailAuth1", "нет email");
+//            pageVariables.put("passwordAuth1", "нет password");
+//            return pageVariables;
+//        }
+//    }
 }

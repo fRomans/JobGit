@@ -12,7 +12,7 @@
   </head>
   <body>
 
-  <form action="/addservlet" method="POST">
+  <form action="" method="POST">
     name: <input type="text" name="name" />
     password: <input type="password" name="password" />
     money:<input type="text" name="money" />
@@ -21,6 +21,6 @@
 
   </form>
 
-  <p>User: $emailReg1$</p>
+  <p>Users: ${emailReg1}</p>
   </body>
 </html>
