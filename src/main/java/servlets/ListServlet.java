@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-@WebServlet(urlPatterns = "/", name = "CreatTable")
-public class CreatTable extends HttpServlet {
+@WebServlet(urlPatterns = "/list", name = "ListServlet")
+public class ListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name;
+
     }
 
     @Override
@@ -40,7 +40,13 @@ public class CreatTable extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        UserService userService = new UserService();
+        try {
+            userService.createTable();
+            resp.setStatus(200);
+        } catch (Exception e) {
+            resp.setStatus(400);
+        }
 
     }
 

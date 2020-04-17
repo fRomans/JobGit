@@ -2,8 +2,8 @@ package servlets;
 
 import model.User;
 import service.UserService;
-//JobGit_war_exploded/
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,29 +18,10 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name;
-        String password;
-        String money;
 
-        Map<String, Object> pageVariables = new HashMap<>();
-        resp.setContentType("text/html;charset=utf-8");
+        PrintWriter writer = resp.getWriter();
+        writer.println("Method GET from AddServlet");
 
-        name = req.getParameter("name");
-        password = req.getParameter("password");
-        money = req.getParameter("money");
-
-        if (name != null & password != null || money!= null) {
-            pageVariables.put("emailReg1", name);
-        }else {
-            pageVariables.put("emailReg1", "name/password/money!!!");
-        }
-        try {
-            //resp.getWriter().println(PageGenerator.getInstance()
-                 //   .getPage("index.jsp", pageVariables));
-        }catch (Exception e){
-            System.out.println(" это моя ошибка в ApiServlet");
-        }
-        resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
@@ -58,16 +39,21 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        User user = new User(req.getParameter("name"),
-                req.getParameter("password"),new Long(req.getParameter("money")));
+        String name;
+        String password;
+        Long money;
+        resp.setContentType("text/html;charset=utf-8");
+        name = req.getParameter("name");
+        password = req.getParameter("password");
+        money =new Long(req.getParameter("money")) ;
+        User user = new User(name, password,money);
 
         try {
             boolean addUser =  new UserService().addUser(user);
 
             Map<String, Object> pageVariables = new HashMap<>();
             if (addUser){//true по умолчанию
-                pageVariables.put("emailReg1", "Add client successful");
+                pageVariables.put("emailReg1", name);
 
             }else {
                 pageVariables.put("emailReg1", "Client not add");
@@ -77,7 +63,7 @@ public class AddServlet extends HttpServlet {
         } catch ( SQLException e) {
             e.printStackTrace();
         }
-        resp.getWriter().println("!!!rrrrrrrrrrrrrrrrrrrrrrr!!!");
+        resp.getWriter().println(name);
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
