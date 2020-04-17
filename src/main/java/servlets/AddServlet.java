@@ -39,13 +39,11 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name;
-        String password;
-        Long money;
+
         resp.setContentType("text/html;charset=utf-8");
-        name = req.getParameter("name");
-        password = req.getParameter("password");
-        money =new Long(req.getParameter("money")) ;
+        String name = req.getParameter("name");
+        String password = req.getParameter("password");
+        Long money =new Long(req.getParameter("money")) ;
         User user = new User(name, password,money);
 
         try {
@@ -63,6 +61,7 @@ public class AddServlet extends HttpServlet {
         } catch ( SQLException e) {
             e.printStackTrace();
         }
+
         resp.getWriter().println(name);
         resp.setStatus(HttpServletResponse.SC_OK);
     }

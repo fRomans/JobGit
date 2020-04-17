@@ -24,7 +24,7 @@ public class UserDao {
 
     public User getClientByName(String name) throws SQLException {
         Statement stmt = connection.createStatement();
-        ResultSet result = stmt.executeQuery("select * from bank_client where name='" + name + "'");
+        ResultSet result = stmt.executeQuery("select * from user_db where name='" + name + "'");
         User bankClient = null;
         while (result.next()) {
             bankClient = new User(result.getLong(1), result.getString(2),
@@ -39,7 +39,7 @@ public class UserDao {
     public List<User> getAllUsers() throws SQLException {
         List<User> Userslist = new LinkedList<>();
         Statement stmt = connection.createStatement();
-        stmt.execute("select * from bank_client ");
+        stmt.execute("select * from user_db ");
         ResultSet result = stmt.getResultSet();
         while (result.next()) {
             Userslist.add(new User(result.getLong(1), result.getString(2),
@@ -51,14 +51,14 @@ public class UserDao {
 
     public void deleteUser(String name) throws SQLException {
         Statement stmt = connection.createStatement();
-        stmt.execute("delete * from bank_client where name='" + name + "'");
+        stmt.execute("delete * from user_db where name='" + name + "'");
         stmt.close();
     }
 
     public void updateUser(String name, String password, Long transactValue) throws SQLException {
         if (validateClient(name, password)) {
             Statement stmt = connection.createStatement();
-            ResultSet result = stmt.executeQuery("select money from bank_client where name='" + name + "'");
+            ResultSet result = stmt.executeQuery("select money from user_db where name='" + name + "'");
             result.next();
             Long balanceOfMoney = result.getLong("money");
             result.close();
@@ -66,7 +66,7 @@ public class UserDao {
             if (balanceOfMoney > transactValue) transactValue = -transactValue;
 
             try {
-                String updata = "update  bank_client set money=? where name='" + name + "'";
+                String updata = "update  user_db set money=? where name='" + name + "'";
                 PreparedStatement preparedStatement = connection.prepareStatement(updata);
                 preparedStatement.setLong(1, transactValue);
                 preparedStatement.executeUpdate();
@@ -88,10 +88,10 @@ public class UserDao {
             return;
         }
         Statement stmt1 = connection.createStatement();
-        ResultSet result1 = stmt1.executeQuery("select * from bank_client ");
+        ResultSet result1 = stmt1.executeQuery("select * from user_db ");
         String nameClient = user.getName();
         PreparedStatement stmt = connection
-                .prepareStatement("insert into  `bank_client`(name, password, money) values(?,?,?)");
+                .prepareStatement("insert into  `user_db`(name, password, money) values(?,?,?)");
         List nameList = new LinkedList();
 
         while (result1.next()) {
