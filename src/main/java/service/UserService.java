@@ -4,6 +4,7 @@ import dao.UserDao;
 import model.User;
 import java.sql.Connection;
 import java.sql.Driver;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,14 +22,26 @@ public class UserService {
         return dao.getAllUsers();
     }
 
-    public boolean deleteUser(String name) throws SQLException {
+    public void deleteUser(User user) throws SQLException {
         UserDao dao = getUserDao();
-        dao.deleteUser(name);
-        if (name.equals(dao.getClientByName(name))) {
-            return false;
-        } else {
-            return true;
+        dao.deleteUser(user.getId());
+
+    }
+
+    public void updateUser(User user) throws SQLException {
+        UserDao dao = getUserDao();
+        dao.updateUser(user);
+    }
+
+    public User getUserById(long id)  {
+        UserDao dao = getUserDao();
+        User user=null;
+        try {
+            user =  dao.getClientById(id);
+        } catch (SQLException e) {
+            System.out.println(" UserDao"+ e);;
         }
+        return user;
     }
 
     public boolean addUser(User user) throws SQLException {

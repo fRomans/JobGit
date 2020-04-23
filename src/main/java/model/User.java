@@ -71,4 +71,14 @@ public class User {
 
         return Objects.hash(getName(), getMoney());
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", money=" + money +
+                '}';
+    }
 }

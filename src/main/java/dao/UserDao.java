@@ -37,48 +37,51 @@ public class UserDao {
     }
 
     public List<User> getAllUsers() throws SQLException {
-        List<User> Userslist = new LinkedList<>();
+        List<User> userslist = new LinkedList<>();
         Statement stmt = connection.createStatement();
         stmt.execute("select * from user_db ");
         ResultSet result = stmt.getResultSet();
         while (result.next()) {
-            Userslist.add(new User(result.getLong(1), result.getString(2),
+            userslist.add(new User(result.getLong(1), result.getString(2),
                     result.getString(3), result.getLong(4)));
         }
 
-        return Userslist;
+        return userslist;
     }
 
-    public void deleteUser(String name) throws SQLException {
+    public User getClientById(long id) throws SQLException {
+
         Statement stmt = connection.createStatement();
-        stmt.execute("delete * from user_db where name='" + name + "'");
+        stmt.executeQuery("select * from user_db where id=" + id );
+        ResultSet result = stmt.getResultSet();
+        User user = null;
+        while (result.next()) {
+             user = new User(result.getLong(1), result.getString(2),
+                    result.getString(3), result.getLong(4));
+        }
+
+
+        result.close();
+        stmt.close();
+        return user;
+    }
+
+    public void deleteUser(Long id) throws SQLException {
+        Statement stmt = connection.createStatement();
+        stmt.execute("delete  from user_db where id ='" + id + "'");
         stmt.close();
     }
 
-    public void updateUser(String name, String password, Long transactValue) throws SQLException {
-        if (validateClient(name, password)) {
-            Statement stmt = connection.createStatement();
-            ResultSet result = stmt.executeQuery("select money from user_db where name='" + name + "'");
-            result.next();
-            Long balanceOfMoney = result.getLong("money");
-            result.close();
+    public void updateUser(User user) throws SQLException {
+
+        PreparedStatement stmt = connection
+                .prepareStatement("UPDATE  `user_db` SET name = ?, password = ?, money = ? WHERE id = " + user.getId());
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getPassword());
+            stmt.setLong(3, user.getMoney());
+            stmt.executeUpdate();
             stmt.close();
-            if (balanceOfMoney > transactValue) transactValue = -transactValue;
-
-            try {
-                String updata = "update  user_db set money=? where name='" + name + "'";
-                PreparedStatement preparedStatement = connection.prepareStatement(updata);
-                preparedStatement.setLong(1, transactValue);
-                preparedStatement.executeUpdate();
-                preparedStatement.close();
-            } catch (SQLException e) {
-                System.out.println();
-                e.printStackTrace();
-            }
-
-        } else {
-            System.out.println(" не пройдена валидация при updateClientsMoney");
-        }
     }
 
     public void addUser(User user) throws SQLException {
